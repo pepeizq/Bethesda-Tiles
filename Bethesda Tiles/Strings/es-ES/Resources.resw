@@ -163,7 +163,7 @@
     <value>Cambiar Carpeta</value>
   </data>
   <data name="StoreDescription" xml:space="preserve">
-    <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de la app de Bethesda.</value>
+    <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de la app Bethesda Launcher.</value>
   </data>
   <data name="GameSelectedTiles.Text" xml:space="preserve">
     <value>Imágenes para incluir en la Tile de este juego:</value>

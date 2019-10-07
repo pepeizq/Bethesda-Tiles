@@ -40,7 +40,7 @@ Public NotInheritable Class MainPage
     Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
-        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
+        Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
         MasCosas.Generar()
 
