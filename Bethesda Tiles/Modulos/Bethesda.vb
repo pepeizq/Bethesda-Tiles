@@ -1,8 +1,6 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.Storage
-Imports Windows.Storage.AccessCache
 Imports Windows.UI
 Imports Windows.UI.Core
 Imports Windows.UI.Xaml.Media.Animation
@@ -18,8 +16,11 @@ Module Bethesda
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim pr As ProgressRing = pagina.FindName("prTiles")
-        pr.Visibility = Visibility.Visible
+        Dim spProgreso As StackPanel = pagina.FindName("spProgreso")
+        spProgreso.Visibility = Visibility.Visible
+
+        Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
+        tbProgreso.Text = String.Empty
 
         Dim botonCache As Button = pagina.FindName("botonConfigLimpiarCache")
         botonCache.IsEnabled = False
@@ -35,6 +36,7 @@ Module Bethesda
 
         Dim listaBBDD As List(Of BethesdaBBDDEntrada) = BethesdaBBDD.Listado
 
+        Dim i As Integer = 0
         For Each juegoBBDD In listaBBDD
             Dim añadir As Boolean = True
             Dim g As Integer = 0
@@ -98,11 +100,14 @@ Module Bethesda
 
                 listaJuegos.Add(juego)
             End If
+
+            tbProgreso.Text = i.ToString + "/" + listaBBDD.Count.ToString
+            i += 1
         Next
 
         Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
 
-        pr.Visibility = Visibility.Collapsed
+        spProgreso.Visibility = Visibility.Collapsed
 
         Dim panelAvisoNoJuegos As Grid = pagina.FindName("panelAvisoNoJuegos")
         Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
