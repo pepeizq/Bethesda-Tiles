@@ -6,6 +6,7 @@
 
     Public Function Listado()
         Dim lista As New List(Of BethesdaBBDDEntrada) From {
+            New BethesdaBBDDEntrada("Arx Fatalis", "41", "1700"),
             New BethesdaBBDDEntrada("Call of Cthulhu: Dark Corners of the Earth", "35", "22340"),
             New BethesdaBBDDEntrada("Dishonored 2", "18", "403640"),
             New BethesdaBBDDEntrada("Dishonored: Death of the Outsider", "19", "614570"),

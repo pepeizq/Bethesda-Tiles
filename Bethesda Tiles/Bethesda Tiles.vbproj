@@ -150,7 +150,9 @@
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Bethesda.vb" />
-    <Compile Include="Modulos\Tiles.vb" />
+    <Compile Include="Modulos\Tiles\Añadir.vb" />
+    <Compile Include="Modulos\Tiles\Imagen.vb" />
+    <Compile Include="Modulos\Tiles\Personalizacion.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\bethesda_logo.png" />
-    <Content Include="Assets\bethesda_logo_mini1.png" />
-    <Content Include="Assets\bethesda_logo_mini2.png" />
-    <Content Include="Assets\bethesda_logo_mini3.png" />
+    <Content Include="Assets\Iconos\1.png" />
+    <Content Include="Assets\Iconos\2.png" />
+    <Content Include="Assets\Iconos\3.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-100.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-125.png" />
     <Content Include="Assets\Logos\BadgeLogo.scale-150.png" />
