@@ -36,6 +36,8 @@ Public NotInheritable Class MainPage
                     gridSeleccionarJuego.Visibility = Visibility.Collapsed
                 End If
 
+                gridSeleccionarJuego.Visibility = Visibility.Visible
+
                 If Not ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") = 0 Then
                     gvTiles.Width = ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles")
                     gvTiles.Padding = New Thickness(5, 0, 5, 0)
@@ -120,22 +122,24 @@ Public NotInheritable Class MainPage
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
         End If
 
-        gvTiles.Items.Clear()
+        If Not listaJuegos Is Nothing Then
+            gvTiles.Items.Clear()
 
-        listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
+            listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
-        If tbBuscador.Text.Trim.Length > 0 Then
-            For Each juego In listaJuegos
-                Dim busqueda As String = tbBuscador.Text.Trim
+            If tbBuscador.Text.Trim.Length > 0 Then
+                For Each juego In listaJuegos
+                    Dim busqueda As String = tbBuscador.Text.Trim
 
-                If LimpiarBusqueda(juego.Titulo).ToString.Contains(LimpiarBusqueda(busqueda)) Then
+                    If LimpiarBusqueda(juego.Titulo).ToString.Contains(LimpiarBusqueda(busqueda)) Then
+                        BotonEstilo(juego, gvTiles)
+                    End If
+                Next
+            Else
+                For Each juego In listaJuegos
                     BotonEstilo(juego, gvTiles)
-                End If
-            Next
-        Else
-            For Each juego In listaJuegos
-                BotonEstilo(juego, gvTiles)
-            Next
+                Next
+            End If
         End If
 
     End Sub
