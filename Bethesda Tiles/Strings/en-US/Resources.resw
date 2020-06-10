@@ -145,7 +145,7 @@
     <value>Report a Bug</value>
   </data>
   <data name="SelectGame.Text" xml:space="preserve">
-    <value>Select a game</value>
+    <value>Select a game (you must have the game in Bethesda Launcher)</value>
   </data>
   <data name="MoreThings_SourceCode" xml:space="preserve">
     <value>Source Code</value>
@@ -269,5 +269,17 @@
   </data>
   <data name="GamePersonalizationInfo.Text" xml:space="preserve">
     <value>Click on the image to customize it before adding the Tile</value>
+  </data>
+  <data name="ContactAddGames.Text" xml:space="preserve">
+    <value>Before contacting me I need to know the id of the missing game, for this it is enough that you make a shortcut of the game to the desktop from Bethesda Launcher and that you send me the text line that I indicate in the screenshot.</value>
+  </data>
+  <data name="SelectGameContact.Text" xml:space="preserve">
+    <value>If any game is missing, contact me with the following information</value>
+  </data>
+  <data name="SelectGameContact2.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Contact.Text" xml:space="preserve">
+    <value>Contact</value>
   </data>
 </root>

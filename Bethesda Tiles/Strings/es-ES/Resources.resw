@@ -148,7 +148,7 @@
     <value>Informa de un Fallo</value>
   </data>
   <data name="SelectGame.Text" xml:space="preserve">
-    <value>Selecciona un juego</value>
+    <value>Selecciona un juego (debes tener el juego en Bethesda Launcher)</value>
   </data>
   <data name="MoreThings_SourceCode" xml:space="preserve">
     <value>Código Fuente</value>
@@ -269,5 +269,17 @@
   </data>
   <data name="GamePersonalizationInfo.Text" xml:space="preserve">
     <value>Clickea en la imagen para personalizarla antes de añadir la Tile</value>
+  </data>
+  <data name="ContactAddGames.Text" xml:space="preserve">
+    <value>Antes de contactar conmigo necesito saber la id del juego que falta, para ello basta con que hagáis un acceso directo del juego al escritorio desde Bethesda Launcher y que me mandéis la linea de texto que os indico en la foto.</value>
+  </data>
+  <data name="SelectGameContact.Text" xml:space="preserve">
+    <value>Si falta algun juego, contacta conmigo con la siguiente información</value>
+  </data>
+  <data name="SelectGameContact2.Text" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="Contact.Text" xml:space="preserve">
+    <value>Contactar</value>
   </data>
 </root>

@@ -161,6 +161,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\añadirjuegos.png" />
     <Content Include="Assets\bethesda_logo.png" />
     <Content Include="Assets\Iconos\1.png" />
     <Content Include="Assets\Iconos\2.png" />

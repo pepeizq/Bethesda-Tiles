@@ -1,5 +1,7 @@
 ﻿Imports FontAwesome.UWP
+Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.Storage
+Imports Windows.System
 Imports Windows.UI
 Imports Windows.UI.Core
 
@@ -84,10 +86,12 @@ Public NotInheritable Class MainPage
                                                                        gridPersonalizarTiles.Background = App.Current.Resources("GridAcrilico")
                                                                        gridConfig.Background = App.Current.Resources("GridAcrilico")
                                                                        gridConfigTiles.Background = App.Current.Resources("GridTituloBackground")
+                                                                       gridContactarAñadirJuegos.Background = App.Current.Resources("GridAcrilico")
                                                                    Else
                                                                        gridPersonalizarTiles.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfig.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfigTiles.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+                                                                       gridContactarAñadirJuegos.Background = New SolidColorBrush(Colors.LightGray)
                                                                    End If
                                                                End Sub)
 
@@ -100,8 +104,77 @@ Public NotInheritable Class MainPage
         gridAñadirTile.Visibility = Visibility.Collapsed
         gridPersonalizarTiles.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
+        gridContactarAñadirJuegos.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
+
+    End Sub
+
+    Private Async Sub TbBuscador_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbBuscador.TextChanged
+
+        Dim helper As New LocalObjectStorageHelper
+
+        Dim listaJuegos As New List(Of Tile)
+
+        If Await helper.FileExistsAsync("juegos") = True Then
+            listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
+        End If
+
+        gvTiles.Items.Clear()
+
+        listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
+
+        If tbBuscador.Text.Trim.Length > 0 Then
+            For Each juego In listaJuegos
+                Dim busqueda As String = tbBuscador.Text.Trim
+
+                If LimpiarBusqueda(juego.Titulo).ToString.Contains(LimpiarBusqueda(busqueda)) Then
+                    BotonEstilo(juego, gvTiles)
+                End If
+            Next
+        Else
+            For Each juego In listaJuegos
+                BotonEstilo(juego, gvTiles)
+            Next
+        End If
+
+    End Sub
+
+    Private Function LimpiarBusqueda(texto As String)
+
+        Dim listaCaracteres As New List(Of String) From {"Early Access", " ", "•", ">", "<", "¿", "?", "!", "¡", ":",
+            ".", "_", "–", "-", ";", ",", "™", "®", "'", "’", "´", "`", "(", ")", "/", "\", "|", "&", "#", "=", ChrW(34),
+            "@", "^", "[", "]", "ª", "«"}
+
+        For Each item In listaCaracteres
+            texto = texto.Replace(item, Nothing)
+        Next
+
+        texto = texto.ToLower
+        texto = texto.Trim
+
+        Return texto
+    End Function
+
+    Private Sub BotonContactoAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonContactoAñadirJuegos.Click
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        GridVisibilidad(gridContactarAñadirJuegos, recursos.GetString("MoreThings_Contact"))
+
+    End Sub
+
+    Private Sub BotonVolverGridTiles_Click(sender As Object, e As RoutedEventArgs) Handles botonVolverGridTiles.Click
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        GridVisibilidad(gridTiles, recursos.GetString("Tiles"))
+
+    End Sub
+
+    Private Async Sub BotonContactarAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonContactarAñadirJuegos.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqapps.com/contact/"))
 
     End Sub
 
