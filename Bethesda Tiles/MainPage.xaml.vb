@@ -1,5 +1,6 @@
 ﻿Imports FontAwesome.UWP
 Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
@@ -13,8 +14,10 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Tiles"), FontAwesomeIcon.Home, 0))
-        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesomeIcon.Cog, 1))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("MissingGames"), FontAwesomeIcon.Gamepad, 2))
+        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
+        nvPrincipal.MenuItems.Add(MasCosas.Generar("https://github.com/pepeizq/Bethesda-Tiles", "https://poeditor.com/join/project/9ZSUVyiZWf"))
 
     End Sub
 
@@ -36,7 +39,9 @@ Public NotInheritable Class MainPage
                     gridSeleccionarJuego.Visibility = Visibility.Collapsed
                 End If
 
-                gridSeleccionarJuego.Visibility = Visibility.Visible
+                If gvTiles.Items.Count > 0 Then
+                    gridSeleccionarJuego.Visibility = Visibility.Visible
+                End If
 
                 If Not ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") = 0 Then
                     gvTiles.Width = ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles")
@@ -45,27 +50,34 @@ Public NotInheritable Class MainPage
 
             ElseIf item.Text = recursos.GetString("Config") Then
                 GridVisibilidad(gridConfig, item.Text)
+            ElseIf item.Text = recursos.GetString("MissingGames") Then
+                GridVisibilidad(gridContactarAñadirJuegos, item.Text)
+            ElseIf item.Text = recursos.GetString("MoreThings") Then
+                FlyoutBase.ShowAttachedFlyout(nvPrincipal.MenuItems.Item(nvPrincipal.MenuItems.Count - 1))
             End If
         End If
-
-    End Sub
-
-    Private Sub Nv_ItemFlyout(sender As NavigationViewItem, args As TappedRoutedEventArgs)
-
-        FlyoutBase.ShowAttachedFlyout(sender)
 
     End Sub
 
     Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
-        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
+        Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        MasCosas.Generar()
+        tbTitulo.Text = Package.Current.DisplayName
 
-        nvPrincipal.IsPaneOpen = False
+        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
+        coreBarra.ExtendViewIntoTitleBar = True
 
+        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        barra.ButtonBackgroundColor = Colors.Transparent
+        barra.ButtonForegroundColor = Colors.White
+        barra.ButtonInactiveBackgroundColor = Colors.Transparent
+        barra.ButtonInactiveForegroundColor = Colors.White
+
+        Cache.Cargar()
         Configuracion.Iniciar()
+        Bethesda.Generar()
 
         '--------------------------------------------------------
 
@@ -159,22 +171,6 @@ Public NotInheritable Class MainPage
 
         Return texto
     End Function
-
-    Private Sub BotonContactoAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonContactoAñadirJuegos.Click
-
-        Dim recursos As New Resources.ResourceLoader()
-
-        GridVisibilidad(gridContactarAñadirJuegos, recursos.GetString("MoreThings_Contact"))
-
-    End Sub
-
-    Private Sub BotonVolverGridTiles_Click(sender As Object, e As RoutedEventArgs) Handles botonVolverGridTiles.Click
-
-        Dim recursos As New Resources.ResourceLoader()
-
-        GridVisibilidad(gridTiles, recursos.GetString("Tiles"))
-
-    End Sub
 
     Private Async Sub BotonContactarAñadirJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonContactarAñadirJuegos.Click
 

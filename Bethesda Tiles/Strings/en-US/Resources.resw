@@ -273,13 +273,16 @@
   <data name="ContactAddGames.Text" xml:space="preserve">
     <value>Before contacting me I need to know the id of the missing game, for this it is enough that you make a shortcut of the game to the desktop from Bethesda Launcher and that you send me the text line that I indicate in the screenshot.</value>
   </data>
-  <data name="SelectGameContact.Text" xml:space="preserve">
-    <value>If any game is missing, contact me with the following information</value>
-  </data>
-  <data name="SelectGameContact2.Text" xml:space="preserve">
-    <value>Open</value>
-  </data>
   <data name="Contact.Text" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="CacheMode.Text" xml:space="preserve">
+    <value>Cache Mode</value>
+  </data>
+  <data name="CacheMode2.Text" xml:space="preserve">
+    <value>If you activate this mode, the app will download each necessary image of the game to your hard disk to add Tiles.</value>
+  </data>
+  <data name="MissingGames" xml:space="preserve">
+    <value>Missing Games</value>
   </data>
 </root>

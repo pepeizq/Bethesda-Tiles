@@ -2,8 +2,6 @@
 
     'https://github.com/FriendsOfGalaxy/galaxy-integration-bethesda/blob/master/betty/game_cache.py
 
-    'Fallout 76 - 20
-
     Public Function Listado()
         Dim lista As New List(Of BethesdaBBDDEntrada) From {
             New BethesdaBBDDEntrada("Arx Fatalis", "41", "1700"),
@@ -15,6 +13,7 @@
             New BethesdaBBDDEntrada("DOOM II", "25", "2300"),
             New BethesdaBBDDEntrada("Fallout 2: A Post Nuclear Role Playing Game", "22", "38410"),
             New BethesdaBBDDEntrada("Fallout 3 Game of the Year Edition", "33", "22370"),
+            New BethesdaBBDDEntrada("Fallout 76", "20", "1151340"),
             New BethesdaBBDDEntrada("Fallout New Vegas Ultimate Edition", "34", "22380"),
             New BethesdaBBDDEntrada("Fallout Shelter", "8", "588430"),
             New BethesdaBBDDEntrada("Fallout Tactics: Brotherhood of Steel", "23", "38420"),

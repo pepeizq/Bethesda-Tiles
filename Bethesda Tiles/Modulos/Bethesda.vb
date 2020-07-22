@@ -8,7 +8,8 @@ Imports Windows.UI.Xaml.Media.Animation
 
 Module Bethesda
 
-    Public anchoColumna As Integer = 306
+    Public anchoColumna As Integer = 200
+    Dim dominioImagenes As String = "https://cdn.cloudflare.steamstatic.com"
 
     Public Async Sub Generar()
 
@@ -43,6 +44,10 @@ Module Bethesda
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
         End If
 
+        If listaJuegos Is Nothing Then
+            listaJuegos = New List(Of Tile)
+        End If
+
         Dim listaBBDD As List(Of BethesdaBBDDEntrada) = BethesdaBBDD.Listado
 
         Dim i As Integer = 0
@@ -62,7 +67,7 @@ Module Bethesda
                 Dim imagenLogo As String = String.Empty
 
                 Try
-                    imagenLogo = Await Cache.DescargarImagen("https://steamcdn-a.akamaihd.net/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDSteam, "logo")
+                    imagenLogo = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDSteam, "logo")
                 Catch ex As Exception
 
                 End Try
@@ -70,7 +75,7 @@ Module Bethesda
                 Dim imagenAnchaReducida As String = String.Empty
 
                 Try
-                    imagenAnchaReducida = Await Cache.DescargarImagen("https://steamcdn-a.akamaihd.net/steam/apps/" + juegoBBDD.IDSteam + "/capsule_184x69.jpg", juegoBBDD.IDSteam, "ancha2")
+                    imagenAnchaReducida = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/capsule_184x69.jpg", juegoBBDD.IDSteam, "ancha2")
                 Catch ex As Exception
 
                 End Try
@@ -78,7 +83,7 @@ Module Bethesda
                 Dim imagenAncha As String = String.Empty
 
                 Try
-                    imagenAncha = Await Cache.DescargarImagen("https://steamcdn-a.akamaihd.net/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDSteam, "ancha")
+                    imagenAncha = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDSteam, "ancha")
                 Catch ex As Exception
 
                 End Try
@@ -86,14 +91,14 @@ Module Bethesda
                 Dim imagenGrande As String = String.Empty
 
                 Try
-                    imagenGrande = Await Cache.DescargarImagen("https://steamcdn-a.akamaihd.net/steam/apps/" + juegoBBDD.IDSteam + "/library_600x900.jpg", juegoBBDD.IDSteam, "grande")
+                    imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/library_600x900.jpg", juegoBBDD.IDSteam, "grande")
                 Catch ex As Exception
 
                 End Try
 
                 If imagenGrande = String.Empty Then
                     Try
-                        imagenGrande = Await Cache.DescargarImagen("https://steamcdn-a.akamaihd.net/steam/apps/" + juegoBBDD.IDSteam + "/capsule_616x353.jpg", juegoBBDD.IDSteam, "grande")
+                        imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/capsule_616x353.jpg", juegoBBDD.IDSteam, "grande")
                     Catch ex As Exception
 
                     End Try
@@ -115,12 +120,14 @@ Module Bethesda
 
         Dim gridTiles As Grid = pagina.FindName("gridTiles")
         Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
+        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 gridTiles.Visibility = Visibility.Visible
                 gridAvisoNoJuegos.Visibility = Visibility.Collapsed
                 gridSeleccionarJuego.Visibility = Visibility.Visible
+                spBuscador.Visibility = Visibility.Visible
 
                 listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
@@ -133,11 +140,13 @@ Module Bethesda
                 gridTiles.Visibility = Visibility.Collapsed
                 gridAvisoNoJuegos.Visibility = Visibility.Visible
                 gridSeleccionarJuego.Visibility = Visibility.Collapsed
+                spBuscador.Visibility = Visibility.Collapsed
             End If
         Else
             gridTiles.Visibility = Visibility.Collapsed
             gridAvisoNoJuegos.Visibility = Visibility.Visible
             gridSeleccionarJuego.Visibility = Visibility.Collapsed
+            spBuscador.Visibility = Visibility.Collapsed
         End If
 
         botonCache.IsEnabled = True
@@ -147,19 +156,23 @@ Module Bethesda
     Public Sub BotonEstilo(juego As Tile, gv As GridView)
 
         Dim panel As New DropShadowPanel With {
-            .Margin = New Thickness(5, 5, 5, 5),
+            .Margin = New Thickness(10, 10, 10, 10),
             .ShadowOpacity = 0.9,
-            .BlurRadius = 5,
-            .MaxWidth = anchoColumna + 10
+            .BlurRadius = 10,
+            .MaxWidth = anchoColumna + 20,
+            .HorizontalAlignment = HorizontalAlignment.Center,
+            .VerticalAlignment = VerticalAlignment.Center
         }
 
         Dim boton As New Button
 
         Dim imagen As New ImageEx With {
-            .Source = juego.ImagenAncha,
+            .Source = juego.ImagenGrande,
             .IsCacheEnabled = True,
-            .Stretch = Stretch.UniformToFill,
-            .Padding = New Thickness(0, 0, 0, 0)
+            .Stretch = Stretch.Uniform,
+            .Padding = New Thickness(0, 0, 0, 0),
+            .HorizontalAlignment = HorizontalAlignment.Center,
+            .VerticalAlignment = VerticalAlignment.Center
         }
 
         boton.Tag = juego
@@ -171,7 +184,8 @@ Module Bethesda
 
         Dim tbToolTip As TextBlock = New TextBlock With {
             .Text = juego.Titulo,
-            .FontSize = 16
+            .FontSize = 16,
+            .TextWrapping = TextWrapping.Wrap
         }
 
         ToolTipService.SetToolTip(boton, tbToolTip)
@@ -189,6 +203,9 @@ Module Bethesda
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
+
+        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
+        spBuscador.Visibility = Visibility.Collapsed
 
         Dim botonJuego As Button = e.OriginalSource
         Dim juego As Tile = botonJuego.Tag
@@ -233,6 +250,15 @@ Module Bethesda
         Dim imagenPequeña As ImageEx = pagina.FindName("imagenTilePequeña")
         imagenPequeña.Source = Nothing
 
+        Dim imagenMediana As ImageEx = pagina.FindName("imagenTileMediana")
+        imagenMediana.Source = Nothing
+
+        Dim imagenAncha As ImageEx = pagina.FindName("imagenTileAncha")
+        imagenAncha.Source = Nothing
+
+        Dim imagenGrande As ImageEx = pagina.FindName("imagenTileGrande")
+        imagenGrande.Source = Nothing
+
         Try
             juego.ImagenIcono = Await Cache.DescargarImagen(Await SacarIcono(juego.ID), juego.ID, "icono")
         Catch ex As Exception
@@ -243,12 +269,6 @@ Module Bethesda
             imagenPequeña.Source = juego.ImagenIcono
             imagenPequeña.Tag = juego.ImagenIcono
         End If
-
-        Dim imagenMediana As ImageEx = pagina.FindName("imagenTileMediana")
-        imagenMediana.Source = Nothing
-
-        Dim imagenAncha As ImageEx = pagina.FindName("imagenTileAncha")
-        imagenAncha.Source = Nothing
 
         If Not juego.ImagenAncha = Nothing Then
             If Not juego.ImagenLogo = Nothing Then
@@ -263,9 +283,6 @@ Module Bethesda
             imagenAncha.Tag = juego.ImagenAncha
         End If
 
-        Dim imagenGrande As ImageEx = pagina.FindName("imagenTileGrande")
-        imagenGrande.Source = Nothing
-
         If Not juego.ImagenGrande = Nothing Then
             imagenGrande.Source = juego.ImagenGrande
             imagenGrande.Tag = juego.ImagenGrande
@@ -275,10 +292,14 @@ Module Bethesda
 
     Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
 
-        Dim boton As Button = sender
-        Dim imagen As ImageEx = boton.Content
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
 
-        imagen.Saturation(0).Start()
+        Dim gvTiles As AdaptiveGridView = pagina.FindName("gvTiles")
+
+        Dim boton As Button = sender
+
+        boton.Saturation(0).Scale(1.05, 1.05, gvTiles.DesiredWidth / 2, gvTiles.ItemHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
@@ -286,10 +307,14 @@ Module Bethesda
 
     Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
 
-        Dim boton As Button = sender
-        Dim imagen As ImageEx = boton.Content
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
 
-        imagen.Saturation(1).Start()
+        Dim gvTiles As AdaptiveGridView = pagina.FindName("gvTiles")
+
+        Dim boton As Button = sender
+
+        boton.Saturation(1).Scale(1, 1, gvTiles.DesiredWidth / 2, gvTiles.ItemHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
