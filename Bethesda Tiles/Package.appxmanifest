@@ -9,7 +9,7 @@
   <Identity
     Name="5078pepeizq.BethesdaTiles"
     Publisher="CN=C91088FC-231C-4E13-86D1-5F9658173DA7"
-    Version="2.1.0.0" />
+    Version="2.1.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="39ba2759-c71e-47ff-b321-519c242f4ab2" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

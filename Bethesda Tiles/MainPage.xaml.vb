@@ -62,7 +62,7 @@ Public NotInheritable Class MainPage
     Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
-        Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
         tbTitulo.Text = Package.Current.DisplayName
 
@@ -202,7 +202,7 @@ Public NotInheritable Class MainPage
     Private Sub BotonCerrarTiles_Click(sender As Object, e As RoutedEventArgs) Handles botonCerrarTiles.Click
 
         gridAñadirTile.Visibility = Visibility.Collapsed
-        gridSeleccionarJuego.Visibility = Visibility.Visible
+        spBuscador.Visibility = Visibility.Visible
 
         If ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") > 0 Then
             If Bethesda.anchoColumna < ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") Then
@@ -218,24 +218,57 @@ Public NotInheritable Class MainPage
     Private Sub BotonTilePequeña_Click(sender As Object, e As RoutedEventArgs) Handles botonTilePequeña.Click
 
         Tiles.Personalizacion.Cargar(gridTilePequeña, 0, imagenTilePequeña.Source)
+        ResetearPersonalizacion(0)
 
     End Sub
 
     Private Sub BotonTileMediana_Click(sender As Object, e As RoutedEventArgs) Handles botonTileMediana.Click
 
         Tiles.Personalizacion.Cargar(gridTileMediana, 1, imagenTileMediana.Source)
+        ResetearPersonalizacion(1)
 
     End Sub
 
     Private Sub BotonTileAncha_Click(sender As Object, e As RoutedEventArgs) Handles botonTileAncha.Click
 
         Tiles.Personalizacion.Cargar(gridTileAncha, 2, imagenTileAncha.Source)
+        ResetearPersonalizacion(2)
 
     End Sub
 
     Private Sub BotonTileGrande_Click(sender As Object, e As RoutedEventArgs) Handles botonTileGrande.Click
 
         Tiles.Personalizacion.Cargar(gridTileGrande, 3, imagenTileGrande.Source)
+        ResetearPersonalizacion(3)
+
+    End Sub
+
+    'PERSONALIZACION--------------------------------------------------------------------
+
+    Private Sub ResetearPersonalizacion(tipo As Integer)
+
+        tbPersonalizacionCambiarImagenInternet.Text = String.Empty
+
+        cbPersonalizacionImagenUbicacion.SelectedIndex = 0
+
+        sliderPersonalizacionImagenMargen.Value = 0
+
+        If tipo = 0 Or tipo = 1 Then
+            gridPersonalizacionImagenTitulo.Visibility = Visibility.Collapsed
+        Else
+            cbPersonalizacionImagenTitulo.IsChecked = False
+            cbPersonalizacionImagenTitulo.Tag = tipo
+            gridPersonalizacionImagenTitulo.Visibility = Visibility.Visible
+
+            If tipo = 2 Then
+                ApplicationData.Current.LocalSettings.Values("tile_ancha_titulo") = False
+            ElseIf tipo = 3 Then
+                ApplicationData.Current.LocalSettings.Values("tile_grande_titulo") = False
+            End If
+        End If
+
+        colorPickerPersonalizacionFondo.Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor(Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToHex(App.Current.Resources("ColorTerciario")))
+        gridPersonalizacionExterior.Background = New SolidColorBrush(colorPickerPersonalizacionFondo.Color)
 
     End Sub
 
