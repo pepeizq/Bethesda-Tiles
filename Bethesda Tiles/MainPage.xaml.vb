@@ -113,12 +113,24 @@ Public NotInheritable Class MainPage
 
     Private Sub GridVisibilidad(grid As Grid, tag As String)
 
+        Dim recursos As New Resources.ResourceLoader()
+
         tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
 
         gridAñadirTile.Visibility = Visibility.Collapsed
         gridPersonalizarTiles.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
         gridContactarAñadirJuegos.Visibility = Visibility.Collapsed
+
+        If tag = recursos.GetString("Tiles") Then
+            If gvTiles.Items.Count > 0 Then
+                spBuscador.Visibility = Visibility.Visible
+            Else
+                spBuscador.Visibility = Visibility.Collapsed
+            End If
+        Else
+            spBuscador.Visibility = Visibility.Collapsed
+        End If
 
         grid.Visibility = Visibility.Visible
 
