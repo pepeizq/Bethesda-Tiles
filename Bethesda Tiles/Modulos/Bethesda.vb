@@ -29,8 +29,7 @@ Module Bethesda
         Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
         tbProgreso.Text = String.Empty
 
-        Dim botonCache As Button = pagina.FindName("botonConfigLimpiarCache")
-        botonCache.IsEnabled = False
+        Cache.Estado(False)
 
         Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
         gridSeleccionarJuego.Visibility = Visibility.Collapsed
@@ -42,10 +41,6 @@ Module Bethesda
 
         If Await helper.FileExistsAsync("juegos") = True Then
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
-        End If
-
-        If listaJuegos Is Nothing Then
-            listaJuegos = New List(Of Tile)
         End If
 
         Dim listaBBDD As List(Of BethesdaBBDDEntrada) = BethesdaBBDD.Listado
@@ -149,7 +144,7 @@ Module Bethesda
             spBuscador.Visibility = Visibility.Collapsed
         End If
 
-        botonCache.IsEnabled = True
+        Cache.Estado(True)
 
     End Sub
 
