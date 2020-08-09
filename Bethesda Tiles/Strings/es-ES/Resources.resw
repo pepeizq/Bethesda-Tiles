@@ -288,4 +288,7 @@
   <data name="MissingGames" xml:space="preserve">
     <value>Juegos que Faltan</value>
   </data>
+  <data name="MoreThings_Video" xml:space="preserve">
+    <value>Vídeo en YouTube</value>
+  </data>
 </root>

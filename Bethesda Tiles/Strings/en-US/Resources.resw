@@ -282,4 +282,7 @@
   <data name="MissingGames" xml:space="preserve">
     <value>Missing Games</value>
   </data>
+  <data name="MoreThings_Video" xml:space="preserve">
+    <value>Video on YouTube</value>
+  </data>
 </root>
