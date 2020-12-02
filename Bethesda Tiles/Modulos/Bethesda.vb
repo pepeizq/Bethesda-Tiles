@@ -1,14 +1,10 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.Storage
 Imports Windows.UI
-Imports Windows.UI.Core
-Imports Windows.UI.Xaml.Media.Animation
 
 Module Bethesda
 
-    Public anchoColumna As Integer = 200
+    Public anchoColumna As Integer = 180
     Dim dominioImagenes As String = "https://cdn.cloudflare.steamstatic.com"
 
     Public Async Sub Generar()
@@ -20,8 +16,8 @@ Module Bethesda
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim spProgreso As StackPanel = pagina.FindName("spProgreso")
-        spProgreso.Visibility = Visibility.Visible
+        Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridProgreso, Nothing)
 
         Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
         pbProgreso.Value = 0
@@ -31,10 +27,8 @@ Module Bethesda
 
         Cache.Estado(False)
 
-        Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
-        gridSeleccionarJuego.Visibility = Visibility.Collapsed
-
-        Dim gv As GridView = pagina.FindName("gvTiles")
+        Dim gv As AdaptiveGridView = pagina.FindName("gvTiles")
+        gv.DesiredWidth = anchoColumna
         gv.Items.Clear()
 
         Dim listaJuegos As New List(Of Tile)
@@ -50,56 +44,65 @@ Module Bethesda
             Dim añadir As Boolean = True
             Dim g As Integer = 0
             While g < listaJuegos.Count
-                If listaJuegos(g).ID = juegoBBDD.IDBethesda Then
+                If listaJuegos(g).IDBethesda = juegoBBDD.IDBethesda Then
                     añadir = False
                 End If
                 g += 1
             End While
 
             If añadir = True Then
-                Dim imagenIcono As String = String.Empty
-
-                Dim imagenLogo As String = String.Empty
-
-                Try
-                    imagenLogo = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDSteam, "logo")
-                Catch ex As Exception
-
-                End Try
-
-                Dim imagenAnchaReducida As String = String.Empty
-
-                Try
-                    imagenAnchaReducida = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/capsule_184x69.jpg", juegoBBDD.IDSteam, "ancha2")
-                Catch ex As Exception
-
-                End Try
-
+                Dim imagenPequeña As String = String.Empty
+                Dim imagenMediana As String = String.Empty
                 Dim imagenAncha As String = String.Empty
-
-                Try
-                    imagenAncha = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDSteam, "ancha")
-                Catch ex As Exception
-
-                End Try
-
                 Dim imagenGrande As String = String.Empty
 
-                Try
-                    imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/library_600x900.jpg", juegoBBDD.IDSteam, "grande")
-                Catch ex As Exception
-
-                End Try
-
-                If imagenGrande = String.Empty Then
+                If Not juegoBBDD.IDSteam = Nothing Then
                     Try
-                        imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/capsule_616x353.jpg", juegoBBDD.IDSteam, "grande")
+                        imagenMediana = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/logo.png", juegoBBDD.IDSteam, "logo")
                     Catch ex As Exception
 
                     End Try
+
+                    Try
+                        imagenAncha = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/header.jpg", juegoBBDD.IDSteam, "ancha")
+                    Catch ex As Exception
+
+                    End Try
+
+                    Try
+                        imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/library_600x900.jpg", juegoBBDD.IDSteam, "grande")
+                    Catch ex As Exception
+
+                    End Try
+
+                    If imagenGrande = String.Empty Then
+                        Try
+                            imagenGrande = Await Cache.DescargarImagen(dominioImagenes + "/steam/apps/" + juegoBBDD.IDSteam + "/capsule_616x353.jpg", juegoBBDD.IDSteam, "grande")
+                        Catch ex As Exception
+
+                        End Try
+                    End If
+                Else
+                    imagenPequeña = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "icono")
+                    imagenMediana = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "logo")
+                    imagenAncha = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "ancha")
+                    imagenGrande = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "grande")
                 End If
 
-                Dim juego As New Tile(juegoBBDD.Titulo, juegoBBDD.IDBethesda, "bethesdanet://run/" + juegoBBDD.IDBethesda, imagenIcono, imagenLogo, imagenAnchaReducida, imagenAncha, imagenGrande)
+                Dim enlace As String = "bethesdanet://run/" + juegoBBDD.IDBethesda
+                Dim pais As New Windows.Globalization.GeographicRegion
+
+                If Not juegoBBDD.IDBethesdaOtrosPaises Is Nothing Then
+                    If juegoBBDD.IDBethesdaOtrosPaises.Count > 0 Then
+                        For Each paisID In juegoBBDD.IDBethesdaOtrosPaises
+                            If pais.CodeTwoLetter.ToUpper = paisID.Pais.ToUpper Then
+                                enlace = "bethesdanet://run/" + paisID.ID
+                            End If
+                        Next
+                    End If
+                End If
+
+                Dim juego As New Tile(juegoBBDD.Titulo, juegoBBDD.IDBethesda, juegoBBDD.IDSteam, enlace, imagenPequeña, imagenMediana, imagenAncha, imagenGrande)
 
                 listaJuegos.Add(juego)
             End If
@@ -111,17 +114,11 @@ Module Bethesda
 
         Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
 
-        spProgreso.Visibility = Visibility.Collapsed
-
-        Dim gridTiles As Grid = pagina.FindName("gridTiles")
-        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
+        Dim gridJuegos As Grid = pagina.FindName("gridJuegos")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridJuegos, recursos.GetString("Games"))
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
-                gridTiles.Visibility = Visibility.Visible
-                gridSeleccionarJuego.Visibility = Visibility.Visible
-                spBuscador.Visibility = Visibility.Visible
-
                 listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
                 gv.Items.Clear()
@@ -129,15 +126,7 @@ Module Bethesda
                 For Each juego In listaJuegos
                     BotonEstilo(juego, gv)
                 Next
-            Else
-                gridTiles.Visibility = Visibility.Collapsed
-                gridSeleccionarJuego.Visibility = Visibility.Collapsed
-                spBuscador.Visibility = Visibility.Collapsed
             End If
-        Else
-            gridTiles.Visibility = Visibility.Collapsed
-            gridSeleccionarJuego.Visibility = Visibility.Collapsed
-            spBuscador.Visibility = Visibility.Collapsed
         End If
 
         Cache.Estado(True)
@@ -183,8 +172,8 @@ Module Bethesda
         ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
 
         AddHandler boton.Click, AddressOf BotonTile_Click
-        AddHandler boton.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler boton.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler boton.PointerEntered, AddressOf Interfaz.Entra_Boton_Imagen
+        AddHandler boton.PointerExited, AddressOf Interfaz.Sale_Boton_Imagen
 
         gv.Items.Add(panel)
 
@@ -193,50 +182,25 @@ Module Bethesda
     Private Async Sub BotonTile_Click(sender As Object, e As RoutedEventArgs)
 
         Trial.Detectar()
+        Interfaz.AñadirTile.ResetearValores()
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
-        spBuscador.Visibility = Visibility.Collapsed
-
         Dim botonJuego As Button = e.OriginalSource
         Dim juego As Tile = botonJuego.Tag
+
+        Dim gridAñadirTile As Grid = pagina.FindName("gridAñadirTile")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridAñadirTile, juego.Titulo)
 
         Dim botonAñadirTile As Button = pagina.FindName("botonAñadirTile")
         botonAñadirTile.Tag = juego
 
         Dim imagenJuegoSeleccionado As ImageEx = pagina.FindName("imagenJuegoSeleccionado")
-        imagenJuegoSeleccionado.Source = juego.ImagenAnchaReducida
+        imagenJuegoSeleccionado.Source = juego.ImagenAncha
 
         Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
         tbJuegoSeleccionado.Text = juego.Titulo
-
-        Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
-        gridSeleccionarJuego.Visibility = Visibility.Collapsed
-
-        Dim gvTiles As GridView = pagina.FindName("gvTiles")
-
-        If gvTiles.ActualWidth > anchoColumna Then
-            ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") = gvTiles.ActualWidth
-        End If
-
-        gvTiles.Width = anchoColumna
-        gvTiles.Padding = New Thickness(0, 0, 15, 0)
-
-        Dim gridAñadir As Grid = pagina.FindName("gridAñadirTile")
-        gridAñadir.Visibility = Visibility.Visible
-
-        ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("tile", botonJuego)
-
-        Dim animacion As ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("tile")
-
-        If Not animacion Is Nothing Then
-            animacion.TryStart(gridAñadir)
-        End If
-
-        Dim tbTitulo As TextBlock = pagina.FindName("tbTitulo")
-        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + juego.Titulo
 
         '---------------------------------------------
 
@@ -252,11 +216,13 @@ Module Bethesda
         Dim imagenGrande As ImageEx = pagina.FindName("imagenTileGrande")
         imagenGrande.Source = Nothing
 
-        Try
-            juego.ImagenIcono = Await Cache.DescargarImagen(Await SacarIcono(juego.ID), juego.ID, "icono")
-        Catch ex As Exception
+        If Not juego.IDSteam = Nothing Then
+            Try
+                juego.ImagenIcono = Await Cache.DescargarImagen(Await SacarIcono(juego.IDBethesda), juego.IDBethesda, "icono")
+            Catch ex As Exception
 
-        End Try
+            End Try
+        End If
 
         If Not juego.ImagenIcono = Nothing Then
             imagenPequeña.Source = juego.ImagenIcono
@@ -283,24 +249,6 @@ Module Bethesda
 
     End Sub
 
-    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Dim boton As Button = sender
-        boton.Saturation(0).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-    End Sub
-
-    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Dim boton As Button = sender
-        boton.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
-
-    End Sub
-
     Public Async Function SacarIcono(id As String) As Task(Of String)
 
         Dim helper As New LocalObjectStorageHelper
@@ -309,7 +257,7 @@ Module Bethesda
             Dim listaJuegos As List(Of Tile) = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
 
             For Each juego In listaJuegos
-                If id = juego.ID Then
+                If id = juego.IDBethesda Then
                     If Not juego.ImagenIcono = Nothing Then
                         Return juego.ImagenIcono
                     End If
@@ -367,7 +315,7 @@ Module Bethesda
                 Dim listaJuegos As List(Of Tile) = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
 
                 For Each juego In listaJuegos
-                    If id = juego.ID Then
+                    If id = juego.IDBethesda Then
                         juego.ImagenIcono = Await Cache.DescargarImagen(urlIcono, id, "icono")
                     End If
                 Next
