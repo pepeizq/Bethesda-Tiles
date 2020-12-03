@@ -151,6 +151,7 @@
     <Compile Include="Modulos\Interfaz\Busqueda.vb" />
     <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
     <Compile Include="Modulos\Interfaz\JuegosFaltan.vb" />
+    <Compile Include="Modulos\Interfaz\MasTiles.vb" />
     <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
     <Compile Include="Modulos\Interfaz\Pestañas.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
@@ -173,6 +174,8 @@
     <Content Include="Assets\Iconos\1.png" />
     <Content Include="Assets\Iconos\2.png" />
     <Content Include="Assets\Iconos\3.png" />
+    <Content Include="Assets\Iconos\4.png" />
+    <Content Include="Assets\Iconos\5.png" />
     <Content Include="Assets\Juegos\39_ancha.jpg" />
     <Content Include="Assets\Juegos\39_grande.png" />
     <Content Include="Assets\Juegos\39_logo.png" />

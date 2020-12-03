@@ -9,12 +9,12 @@
   <Identity
     Name="5078pepeizq.BethesdaTiles"
     Publisher="CN=C91088FC-231C-4E13-86D1-5F9658173DA7"
-    Version="2.1.10.0" />
+    Version="2.2.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="39ba2759-c71e-47ff-b321-519c242f4ab2" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Bethesda Tiles</DisplayName>
+    <DisplayName>Tiles for Bethesda Games</DisplayName>
     <PublisherDisplayName>pepeizq&apos;s apps</PublisherDisplayName>
     <Logo>Assets\Logos\StoreLogo.png</Logo>
   </Properties>
@@ -32,12 +32,12 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Bethesda_Tiles.App">
       <uap:VisualElements
-        DisplayName="Bethesda Tiles"
+        DisplayName="Tiles for Bethesda Games"
         Square150x150Logo="Assets\Logos\Square150x150Logo.png"
         Square44x44Logo="Assets\Logos\Square44x44Logo.png"
         Description="https://pepeizqapps.com/"
         BackgroundColor="#1d1d1d">
-        <uap:DefaultTile Wide310x150Logo="Assets\Logos\Wide310x150Logo.png" ShortName="Bethesda Tiles" Square71x71Logo="Assets\Logos\SmallTile.png" Square310x310Logo="Assets\Logos\LargeTile.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Logos\Wide310x150Logo.png" ShortName="Tiles for Bethesda Games" Square71x71Logo="Assets\Logos\SmallTile.png" Square310x310Logo="Assets\Logos\LargeTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="wide310x150Logo"/>
             <uap:ShowOn Tile="square310x310Logo"/>

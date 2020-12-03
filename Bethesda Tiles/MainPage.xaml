@@ -535,6 +535,8 @@
                     </ScrollViewer>
                 </Grid>
 
+                <Grid x:Name="gridMasTiles" Visibility="Collapsed"/>
+
                 <Grid x:Name="gridMasCosas" Visibility="Collapsed"/>
             </Grid>
         </NavigationView>

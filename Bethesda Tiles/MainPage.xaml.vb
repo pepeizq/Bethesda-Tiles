@@ -9,6 +9,7 @@
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesome5.EFontAwesomeIcon.Solid_Cog))
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("MissingGames"), FontAwesome5.EFontAwesomeIcon.Solid_Gamepad))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
+        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("MoreTiles"), FontAwesome5.EFontAwesomeIcon.Solid_ThLarge))
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("MoreThings"), FontAwesome5.EFontAwesomeIcon.Solid_Cube))
 
     End Sub
@@ -26,6 +27,8 @@
                 Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
             ElseIf item.Text = recursos.GetString("MissingGames") Then
                 Interfaz.Pestañas.Visibilidad_Pestañas(gridContactarAñadirJuegos, item.Text)
+            ElseIf item.Text = recursos.GetString("MoreTiles") Then
+                Interfaz.Pestañas.Visibilidad_Pestañas(gridMasTiles, item.Text)
             ElseIf item.Text = recursos.GetString("MoreThings") Then
                 Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, item.Text)
             End If
@@ -42,6 +45,7 @@
         Interfaz.AñadirTile.Cargar()
         Interfaz.Busqueda.Cargar()
         Interfaz.JuegosFaltan.Cargar()
+        Interfaz.MasTiles.Cargar()
         Bethesda.Generar()
         MasCosas.Cargar()
 
