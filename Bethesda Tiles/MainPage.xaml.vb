@@ -42,6 +42,7 @@
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
         Cache.Cargar()
+        Interfaz.Juegos.Cargar()
         Interfaz.AñadirTile.Cargar()
         Interfaz.Busqueda.Cargar()
         Interfaz.JuegosFaltan.Cargar()
