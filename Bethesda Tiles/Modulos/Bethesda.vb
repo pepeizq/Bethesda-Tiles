@@ -56,7 +56,7 @@ Module Bethesda
             End While
 
             If añadir = True Then
-                Dim imagenPequeña As String = String.Empty
+                Dim imagenPequeña As String = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "pequeña")
                 Dim imagenMediana As String = String.Empty
                 Dim imagenAncha As String = String.Empty
                 Dim imagenGrande As String = String.Empty
@@ -88,8 +88,7 @@ Module Bethesda
                         End Try
                     End If
                 Else
-                    imagenPequeña = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "icono")
-                    imagenMediana = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "logo")
+                    imagenMediana = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "mediana")
                     imagenAncha = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "ancha")
                     imagenGrande = Await Cache.DescargarImagen(Nothing, juegoBBDD.IDBethesda, "grande")
                 End If
@@ -221,6 +220,16 @@ Module Bethesda
             animacion.Configuration = New BasicConnectedAnimationConfiguration
             animacion.TryStart(gridAñadirTile)
         End If
+
+        '---------------------------------------------
+
+        Dim tbImagenTituloTextoTileAncha As TextBox = pagina.FindName("tbImagenTituloTextoTileAncha")
+        tbImagenTituloTextoTileAncha.Text = juego.Titulo
+        tbImagenTituloTextoTileAncha.Tag = juego.Titulo
+
+        Dim tbImagenTituloTextoTileGrande As TextBox = pagina.FindName("tbImagenTituloTextoTileGrande")
+        tbImagenTituloTextoTileGrande.Text = juego.Titulo
+        tbImagenTituloTextoTileGrande.Tag = juego.Titulo
 
         '---------------------------------------------
 
