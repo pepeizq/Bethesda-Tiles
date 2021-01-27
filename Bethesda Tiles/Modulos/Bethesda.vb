@@ -127,6 +127,8 @@ Module Bethesda
         Dim gridJuegos As Grid = pagina.FindName("gridJuegos")
         Interfaz.Pestañas.Visibilidad(gridJuegos, recursos.GetString("Games"), Nothing)
 
+        'Dim textoClipboard As String = String.Empty
+
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
@@ -134,10 +136,15 @@ Module Bethesda
                 gv.Items.Clear()
 
                 For Each juego In listaJuegos
+                    'textoClipboard = textoClipboard + "[tr][td]" + juego.Titulo + "[/td][td]" + juego.IDBethesda + "[/td][/tr]"
                     BotonEstilo(juego, gv)
                 Next
             End If
         End If
+
+        'Dim datos As New DataTransfer.DataPackage
+        'datos.SetText(textoClipboard)
+        'DataTransfer.Clipboard.SetContent(datos)
 
         Cache.Estado(True)
         LimpiezaArchivos.Estado(True)
