@@ -9,6 +9,7 @@
             New BethesdaBBDDEntrada("Dishonored 2", "18", "403640", Nothing),
             New BethesdaBBDDEntrada("Dishonored: Death of the Outsider", "19", "614570", Nothing),
             New BethesdaBBDDEntrada("DOOM 3: BFG Edition", "40", "208200", Nothing),
+            New BethesdaBBDDEntrada("DOOM 64", "52", "1148590", Nothing),
             New BethesdaBBDDEntrada("DOOM Eternal", "51", "782330", Nothing),
             New BethesdaBBDDEntrada("DOOM II", "25", "2300", Nothing),
             New BethesdaBBDDEntrada("Fallout 2: A Post Nuclear Role Playing Game", "22", "38410", Nothing),
