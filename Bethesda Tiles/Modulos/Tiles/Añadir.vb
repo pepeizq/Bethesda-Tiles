@@ -30,6 +30,12 @@ Namespace Tiles
 
             Dim nuevaTile As New SecondaryTile(tile.IDBethesda, tile.Titulo, tile.Enlace, New Uri("ms-appdata:///local/" + tile.IDBethesda + "ancha.png", UriKind.RelativeOrAbsolute), Windows.UI.StartScreen.TileSize.Wide310x150)
 
+            If Not tile.ImagenIcono = Nothing Then
+                nuevaTile.VisualElements.Square44x44Logo = New Uri("ms-appx:///" + tile.ImagenIcono, UriKind.RelativeOrAbsolute)
+            Else
+                nuevaTile.VisualElements.Square44x44Logo = New Uri("ms-appx:///" + tile.ImagenGrande, UriKind.RelativeOrAbsolute)
+            End If
+
             nuevaTile.VisualElements.Square71x71Logo = New Uri("ms-appdata:///local/" + tile.IDBethesda + "pequena.png", UriKind.RelativeOrAbsolute)
             nuevaTile.VisualElements.Square150x150Logo = New Uri("ms-appdata:///local/" + tile.IDBethesda + "mediana.png", UriKind.RelativeOrAbsolute)
             nuevaTile.VisualElements.Wide310x150Logo = New Uri("ms-appdata:///local/" + tile.IDBethesda + "ancha.png", UriKind.RelativeOrAbsolute)
